@@ -1,0 +1,81 @@
+#sankey {
+  width: 100%;
+  margin: 0 0 15px 0;
+  padding: 0;
+  height: 505px;
+  float: left;
+}
+.sankeytitle {
+  margin: 0;
+  text-align: center;
+  //font-family: Arial;
+}
+
+.slider_wrap * {
+  margin: 0px;
+  padding: 0px;
+  text-align: center;
+}
+.toggle_radio{
+  position: relative;
+  background: rgba(50,50,50,.1);
+  margin: 4px auto;
+  overflow: hidden;
+  padding: 0 !important;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  position: relative;
+  height: 26px;
+
+  /*width: 318px;*/
+  display: inline-block;
+  left:5%;
+}
+.toggle_radio > * {
+  float: left;
+}
+.toggle_radio input[type=radio]{
+  display: none;
+  /*position: fixed;*/
+}
+.toggle_radio label{
+  font: 90%/1.618 "Source Sans Pro";
+  color: rgba(50,50,50,.9);
+  z-index: 0;
+  display: block;
+  width: 94px;
+  height: 20px;
+  margin: 3px 3px;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  cursor: pointer;
+  z-index: 1;
+  /*background: rgba(0,0,0,.1);*/
+  text-align: center;
+  /*margin: 0 2px;*/
+  /*background: blue;*/ /*make it blue*/
+}
+.toggle_option_slider{
+  /*display: none;*/
+  /*background: red;*/
+  width: 100px;
+  height: 20px;
+  position: absolute;
+  top: 3px;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  -webkit-transition: all .4s ease;
+  -moz-transition: all .4s ease;
+  -o-transition: all .4s ease;
+  -ms-transition: all .4s ease;
+  transition: all .4s ease;
+  pointer-events:none;
+}
+
+.toggle_option:checked ~ .toggle_option_slider{
+  background: rgba(50,50,50,.3);
+  left: 215px;
+}

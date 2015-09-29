@@ -1,0 +1,82 @@
+#console.log @pathway 
+
+#energySubscreenID = 1
+
+switchViewScreen = (id) ->
+  #return  if energySubscreenID is id
+  i = 1
+
+  while i <= 3
+    if i is id
+
+      document.getElementById("energy-subnav-" + i).className = "selected"
+    else
+      #alert "energy-subnav-" + i
+      document.getElementById("energy-subnav-" + i).className = ""
+    i++
+  while document.getElementById("energy_container").hasChildNodes()
+    Knoten = document.getElementById("energy_container").firstChild
+    verschwunden = document.getElementById("energy_container").removeChild(Knoten)
+  if id is 2
+    newdiv1 = document.createElement("div")
+    newdiv2 = document.createElement("div")
+    newdiv1.setAttribute "id", "container_energy_1"
+    newdiv2.setAttribute "id", "container_energy_2"
+    cellNode1 = document.createElement("td")
+    cellNode2 = document.createElement("td")
+    cellNode1.appendChild newdiv1
+    cellNode2.appendChild newdiv2
+    rowNode = document.createElement("tr")
+    rowNode.appendChild cellNode1
+    rowNode.appendChild cellNode2
+    document.getElementById("energy_container").appendChild rowNode
+    document.getElementById("container_energy_1").setAttribute "style", "width:330px; height:310px"
+    document.getElementById("container_energy_2").setAttribute "style", "width:330px; height:310px"
+    #initEnergyFlowsCharts()
+    #updateEnergyFlows()
+
+  if id is 3
+    newdiv1 = document.createElement("div")
+    newdiv2 = document.createElement("div")
+    newdiv1.setAttribute "id", "container_abc_1"
+    newdiv2.setAttribute "id", "container_abc_2"
+    cellNode1 = document.createElement("td")
+    cellNode2 = document.createElement("td")
+    cellNode1.appendChild newdiv1
+    cellNode2.appendChild newdiv2
+    rowNode = document.createElement("tr")
+    rowNode.appendChild cellNode1
+    rowNode.appendChild cellNode2
+    document.getElementById("energy_container").appendChild rowNode
+    document.getElementById("container_abc_1").setAttribute "style", "width:330px; height:310px"
+    document.getElementById("container_abc_2").setAttribute "style", "width:330px; height:310px"
+    #initEnergyFlowsCharts()
+    #updateEnergyFlows()
+
+  if id is 1
+    console.log window.twentyfifty.documentReady    
+    window.twentyfifty.views['primary_energy_chart'].setup()
+    window.twentyfifty.views['primary_energy_chart'].teardown() 
+    $.getJSON(url({code:main_code, action:'data', sector: null, comparator: null}), (data) ->
+      if data?
+        cache[data._id] = data
+        if data._id == codeForChoices()
+          window.twentyfifty.views['primary_energy_chart'].updateResults(data)
+          $('#calculating').html("<br >")
+          #setTimeout (->
+          #$('#loadbody').hide()
+          #), 2000
+      )    
+    #window.twentyfifty.views['primary_energy_chart'].updateResults window.twentyfifty.loadMainPathway
+    #window.twentyfifty.documentReady
+    #window.twentyfifty.PrimaryEnergy.teardown()
+    #updateEnergyFlows()
+
+  #energySubscreenID = id
+  false
+
+
+window.twentyfifty.switchViewScreen = switchViewScreen
+
+
+

@@ -1,0 +1,164 @@
+class CostsNew
+
+
+
+  constructor: () ->
+
+  setup: () ->
+    document.getElementById("results").style.width = "75%"
+    target = $('#results')
+    target.append("<div id='increamental' class='chart'></div><div id='pathway' class='chart'></div>")
+
+
+
+    #The following lines position the viewmessage box, chart and results
+    document.getElementById("increamental").style.width = "50%"
+    document.getElementById("pathway").style.width = "50%"
+
+    document.getElementById("results").style.overflow = "inherit"
+    document.getElementById("display_table").style.display = "block"
+    document.getElementById("viewmessage").style.display = "block"
+    document.getElementById("print_div").style.display = "none"
+
+    @increamental_chart = new Highcharts.Chart({
+      chart: {
+        renderTo: 'increamental',
+        type: 'bar',
+        color: '#fff',
+
+        margin: [45, 25, 70, 140],
+      },
+      title: { text: 'Commulative Costs in INR Billion ' },
+      subtitle: { text: ""},
+      yAxis: { 
+        labels: formatter: ->
+          return Math.round(this.value/1000000) + 'm'      
+        title: null },
+
+      xAxis: {
+        categories: ['Fossil Fule',
+                     'Bio Energy',
+                     'Electricity',
+                     'Buildings',
+                     'Transport', 'Industry', 'Others', 'Finance' ],
+        labels: 
+          style:{
+            color:'#000'
+          },
+
+          formatter: ->
+            @value
+
+      },
+
+      legend: {
+        enabled: false
+      },
+
+      tooltip: {
+        enabled: false
+      },
+
+      plotOptions: {
+        bar: {
+          dataLabels: {
+            enabled: true,
+            color: '#000'
+          }
+        }
+      }  
+
+      series: []
+
+    })
+
+    @pathway_chart = new Highcharts.Chart({
+      chart: {
+        renderTo: 'pathway',
+        type: 'bar',
+        color: '#fff',
+
+        margin: [45, 25, 70, 140],
+      },
+      title: { 
+        text: 'Pathway costs as % of GDP(2012-47)' ,
+        align:'center',
+        x: 70
+      },
+      subtitle: { text: ""},
+
+      xAxis: {
+        categories: ['Your Pathway' ],
+        labels: 
+          style:{
+            color:'#000',
+            height: '1px'
+          },
+
+          formatter: ->
+            @value
+
+      },
+
+      legend: {
+        enabled: false
+      },
+
+      tooltip: {
+        enabled: false
+      },
+
+      plotOptions: {
+        bar: {
+          dataLabels: {
+            enabled: true,
+            color: '#000'
+          }
+        }
+        series: {
+          pointWidth: 40
+        }
+      }  
+
+      series: []
+
+    })
+
+  teardown: () ->
+    #Return the results box to original position
+    document.getElementById("results").style.width = "100%"
+    document.getElementById("results").style.marginRight = "0"
+    document.getElementById("results").style.overflow = "hidden"
+    $('#results').empty()
+    @increamental_chart = null
+    @pathway_chart = null
+
+
+
+
+  updateResults: (@pathway) ->
+
+    @setup() unless @increamental_chart? && @pathway_chart?
+
+    data = [@pathway['increamental_costs']["Fossil Fuels"],@pathway['increamental_costs']["Bioenergy"],@pathway['increamental_costs']["Electricity"],@pathway['increamental_costs']["Buildings"],@pathway['increamental_costs']["Transport"],@pathway['increamental_costs']["Industry"],@pathway['increamental_costs']["Others"],@pathway['increamental_costs']["Finance"]]
+    if @increamental_chart.series[0]?
+      @increamental_chart.series[0].setData(data,false)
+    else
+      @increamental_chart.addSeries({name: 'Increamental Cost', data:data, color: '#FF0000', negativeColor:'#0088FF'},false)
+
+    data_percent = []
+    data_path = [@pathway['increamental_costs']["Your Pathway"]]
+
+    data_percent[0] = Math.round((data_path[0]*100)* 100) / 100
+    console.log(data_percent)
+    if @pathway_chart.series[0]?
+      @pathway_chart.series[0].setData(data_percent,false)
+    else
+      @pathway_chart.addSeries({name: 'Pathway Cost', data:data_percent, color: '#0000FF'},false)
+
+
+    @increamental_chart.redraw()
+    @pathway_chart.redraw()
+      
+
+window.twentyfifty.views['costsnew'] = new CostsNew

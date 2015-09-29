@@ -1,0 +1,314 @@
+!!!
+%html
+  %head
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" / >
+    %title India Energy Security Scenarios, 2047
+    = stylesheet
+    = javascript
+    :javascript
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-17161700-2']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    %link{href: "http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700", rel: "stylesheet", type: "text/css"}/
+
+
+
+  %body
+    #fixed_div
+      #topbar2.tour_1
+        %ul.menu_0
+          %li#messages
+            %a#logoImg{href:"http://indiaenergy.gov.in", target:'_new', onclick:'return sitevisit();'}
+              %img(src="../../assets/images/logo.png")
+            %div#curTab
+              %p &nbsp;All Energy - 
+              %span#curPath Default Pathway
+
+        %ul.menu_1
+
+          %li
+            %a#TourLink{ :href => '#'} 
+              New User?
+
+          %li
+            %a{href:'http://indiaenergy.gov.in/how-it-works.php', target:'_new', onclick:'return sitevisit();' } 
+              Help
+
+          %li
+            #share-twitter
+              %a{href:"#", onclick:'tweetCurrentPage()'} 
+                %img(src="../../assets/images/Twitter.png")
+
+          %li
+            #share-facebook
+              %a{href:"https://facebook.com/sharer/sharer.php?u=localhost:9292/pathways/22222222222222222222222222212222222222222211222222222222222/primary_energy_chart", onclick:'', target:'_new'}  
+                %img(src="../../assets/images/Facebook.png")
+            
+          
+        %ul.menu_2 
+          
+          - view_names.to_a.each do |action,title|
+            %li
+              %a{href:'#', onclick:"twentyfifty.switchView('#{action}')"}= title
+            
+
+      #display_table
+        #display.diaplay_nav
+      #results
+      #print_div
+
+      #warning.warning_option
+        //%h5 Warning
+        //%ul
+        //  %li
+        //    %a{href:'javascript:void(0)', onclick:"return false"}
+        //      %img(src="../../assets/images/icon/energy-security-disabled.gif")
+        //  %li
+        //    %a{href:'javascript:void(0)', onclick:"return false"}
+        //      %img(src="../../assets/images/icon/electricity-disabled.gif")
+        //  %li
+        //    %a{href:'javascript:void(0)', onclick:"return false"}
+        //      %img(src="../../assets/images/icon/land-use-disabled.gif")
+        //  %li
+        //    %a{href:'javascript:void(0)', onclick:"return false"}
+        //      %img(src="../../assets/images/icon/institutions-disabled.gif")
+   
+    
+    #pathway_box
+      Create your own pathway by selecting effort levels 1 to 4 for each sector or choose an example pathway.
+      %select{:onchange => "if(this.value == 0 ) return false; else twentyfifty.switchPathway(this.value);"}
+        %option{:value => 0}= "------Choose from Example Scenarios------"
+        - saved_pathways.each do |name,code|
+          %option{:value => code}= name
+
+
+    #classic_controls.tour_2
+      #demand.tour_3
+        <h2 data-step="1" data-intro="This is a tooltip!">Demand</h2>
+        %table 
+          %table
+            = classic_table_row_for_choice structure.choices[24]
+            <tr height='10'><td></td></tr>
+          /- structure.choices[25..42].each do |choice|
+          - choiceArr = {}
+          - choiceArr = [25,26,27,28,29,30]
+          = classic_table_row_for_heading 'Transport',1, choiceArr, false
+          %table#collapseme1.collapse.out
+            - [25,26,27,28,29,30].each do |choice|
+              = classic_table_row_for_choice structure.choices[choice]
+            <tr height='10'><td></td></tr>
+
+
+          - choiceArr = [39]
+          = classic_table_row_for_heading 'Cooking',2, choiceArr, false	
+          %table#collapseme2.collapse.out
+            - [39].each do |choice|
+              = classic_table_row_for_choice structure.choices[choice]
+            <tr height='10'><td></td></tr>
+
+          - choiceArr = [46,31,32,33,34,35]
+          = classic_table_row_for_heading 'Buildings',3, choiceArr, false
+          %table#collapseme3.collapse.out
+            - [46,31,32,33,34,35].each do |choice|
+              = classic_table_row_for_choice structure.choices[choice]
+            <tr height='10'><td></td></tr>
+
+          - choiceArr = [36,37,38]
+          = classic_table_row_for_heading 'Industry',4, choiceArr, false
+          %table#collapseme4.collapse.out
+            - [36,37,38].each do |choice|
+              = classic_table_row_for_choice structure.choices[choice]
+            <tr height='10'><td></td></tr>
+
+          - choiceArr = [40,41]
+          = classic_table_row_for_heading 'Agriculture',5, choiceArr, false
+          %table#collapseme5.collapse.out
+            - [40,41].each do |choice|
+              = classic_table_row_for_choice structure.choices[choice]
+            <tr height='10'><td></td></tr>
+
+          - choiceArr = [42]
+          = classic_table_row_for_heading 'Telecom',6, choiceArr, false
+          %table#collapseme6.collapse.out
+            - [42].each do |choice|
+              = classic_table_row_for_choice structure.choices[choice]
+
+      #supply.tour_4
+        <h2>Supply - Renewable and Clean Energy</h2>
+        %table
+          /- [7,8,12,13, 9,10, 5,  6,11,  15,16,17,18,  19, 20].each do |choice|
+          
+          - choiceArr = {}
+          - choiceArr = [7,8,12,13]
+          = classic_table_row_for_heading 'Solar',7, choiceArr, true
+          %table#collapseme7.collapse.out
+            - [7,8,12,13].each do |choice|
+              = classic_table_row_for_choice structure.choices[choice]
+            <tr height='10'><td></td></tr>
+
+          - choiceArr = [9,10]
+          = classic_table_row_for_heading 'Wind',8, choiceArr, true
+          %table#collapseme8.collapse.out
+            - [9,10].each do |choice|
+              = classic_table_row_for_choice structure.choices[choice]
+            <tr height='10'><td></td></tr>
+
+          - choiceArr = [5]
+          = classic_table_row_for_heading 'Nuclear',9, choiceArr, true
+          %table#collapseme9.collapse.out
+            - [5].each do |choice|
+              = classic_table_row_for_choice structure.choices[choice]
+            <tr height='10'><td></td></tr>
+
+
+          - choiceArr = [6,11]
+          = classic_table_row_for_heading 'Hydroelectricity',10, choiceArr, true
+          %table#collapseme10.collapse.out
+            - [6,11].each do |choice|
+              = classic_table_row_for_choice structure.choices[choice]
+            <tr height='10'><td></td></tr>
+
+          - choiceArr = [15,16,17,18]
+          = classic_table_row_for_heading 'Bioenergy',11, choiceArr, false
+          %table#collapseme11.collapse.out
+            - [15,16,17,18].each do |choice|
+              = classic_table_row_for_choice structure.choices[choice]
+            <tr height='10'><td></td></tr>
+
+          - choiceArr = [19]
+          = classic_table_row_for_heading 'Waste to Energy',12, choiceArr, false
+          %table#collapseme12.collapse.out
+            - [19].each do |choice|
+              = classic_table_row_for_choice structure.choices[choice]
+
+          - choiceArr = [20]
+          = classic_table_row_for_heading 'Hydrogen',13, choiceArr, false
+          %table#collapseme13.collapse.out
+            - [20].each do |choice|
+              = classic_table_row_for_choice structure.choices[choice]
+
+
+      #other
+        <h2>Supply - Conventional Energy</h2>
+        %table
+          /- structure.choices[0..37].each do |choice|
+          /- [21,0, 22,1,2, 23,  3,4].each do |choice|
+
+          - choiceArr = {}
+          - choiceArr = [21,0]
+          = classic_table_row_for_heading 'Gas',14, choiceArr, false
+          %table#collapseme14.collapse.out
+            - [21,0].each do |choice|
+              = classic_table_row_for_choice structure.choices[choice]
+            <tr height='10'><td></td></tr>
+
+          - choiceArr = [22,1,2]
+          = classic_table_row_for_heading 'Coal',15, choiceArr, false
+          %table#collapseme15.collapse.out
+            - [22,1,2].each do |choice|
+              = classic_table_row_for_choice structure.choices[choice]
+            <tr height='10'><td></td></tr>
+
+          - choiceArr = [23]
+          = classic_table_row_for_heading 'Oil',16, choiceArr, false
+          %table#collapseme16.collapse.out
+            - [23].each do |choice|
+              = classic_table_row_for_choice structure.choices[choice]
+            <tr height='10'><td></td></tr>
+
+          - choiceArr = [3,4]
+          = classic_table_row_for_heading 'Carbon Capture and Storage',17, choiceArr, true
+          %table#collapseme17.collapse.out
+            - [3,4].each do |choice|
+              = classic_table_row_for_choice structure.choices[choice]
+            <tr height='10'><td></td></tr>
+
+      #guide
+        <h2>Key</h2>
+        %table
+          %tr.incremental
+            %td.choice
+              <a class="level1" href="#">1</a>
+            %td
+              Least Effort
+          %tr.incremental
+            %td.choice
+              <a class="level2" href="#">2</a>
+            %td
+              Dertermined Effort
+          %tr.incremental
+            %td.choice
+              <a class="level3" href="#">3</a>
+            %td
+              Aggressive Effort
+          %tr.incremental
+            %td.choice
+              <a class="level4" href="#">4</a>
+            %td
+              Heroic Effort
+          %tr.incremental
+            %td
+              <img width="13px" height="13px" src="/assets/images/get_info.png">
+            %td
+              One pager description for each sector
+          %tr.incremental
+            %td
+              A-E
+            %td
+              A range of options where one alternative is not neccesiarily more aggressive than the other
+          %tr.incremental
+            %td
+              <img width="15px" src="/assets/images/open.png">
+            %td
+              Drop down for Sub-Sectors
+
+      #electricity
+        <h2>Network and Systems</h2>
+        %table
+          /- structure.choices[0..37].each do |choice|
+          /- [14,  43, 44, 45].each do |choice|
+
+          - choiceArr = [14]
+          = classic_table_row_for_heading 'Cross Border Electricity Trade',18, choiceArr, true
+          %table#collapseme18.collapse.out
+            - [14].each do |choice|
+              = classic_table_row_for_choice structure.choices[choice]
+            <tr height='10'><td></td></tr>
+
+          - choiceArr = [43]
+          = classic_table_row_for_heading 'T&D Losses',19, choiceArr, false
+          %table#collapseme19.collapse.out
+            - [43].each do |choice|
+              = classic_table_row_for_choice structure.choices[choice]
+            <tr height='10'><td></td></tr>
+
+          - choiceArr = [44]
+          = classic_table_row_for_heading 'Storage',20, choiceArr, true
+          %table#collapseme20.collapse.out
+            - [44].each do |choice|
+              = classic_table_row_for_choice structure.choices[choice]
+            <tr height='10'><td></td></tr>
+
+          - choiceArr = [45]
+          = classic_table_row_for_heading 'Reliability of Grid',21, choiceArr, false
+          %table#collapseme21.collapse.out
+            - [45].each do |choice|
+              = classic_table_row_for_choice structure.choices[choice]
+            <tr height='10'><td></td></tr>
+
+
+
+    #tooltip
+    .clearfix
+    
+    #viewStory
+	
+    #footer
+      Based on <a href='http://indiaenergy.gov.in/docs/India_Energy_Security_Scenarios_2047_Ver2.0.xlsx'>excel #{ModelStructure.instance.reported_calculator_version.to_s.downcase}</a>. The source code for this site is available under an open source licence from
+      %a{href: "https://github.com/iept/test-2047-calculator", target:'_new', onclick:'return sitevisit();'}https://github.com/iept/test-2047-calculator

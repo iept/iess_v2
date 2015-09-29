@@ -1,0 +1,33 @@
+#Mystory {
+  float:left;
+  font-size:12px;
+  div {
+    float:left;
+    width:31%;
+    margin: 1%;
+    div {
+      float:left;
+      width: 100%;
+      margin-bottom:10px;
+      h4{
+ 
+        margin-top:0;
+        margin-bottom:0;
+
+      }
+    }
+    table {
+      float:left;
+    }
+    div.StoryDivder{
+      float:left;
+      width:100%;
+      height:10px;
+    }
+  }
+}
+.StoryDivder{
+  float:left;
+  width:100%;
+  height:5px;
+}

@@ -1,0 +1,223 @@
+// Place all the styles related to the pathways controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+body {
+  //font-family: Lucida Grande,Lucida Sans Unicode,Verdana,Arial,Helvetica,sans-serif;
+  font-family: sans-serif;
+  font-size: 80%;
+  margin: 0 auto;
+  padding: 0;
+  width: 1200px;
+}
+.clearfix{
+   clear: both;
+}
+#results {
+  float: left;
+  margin: 0;
+  overflow: inherit;
+  width: 75%;
+  //z-index: -1;
+  //background-color: #e1e1e1;
+  min-height: 285px;
+}
+.chart {
+  padding: 0;
+  border: 0;
+  /*margin: 0 0 5px 0;*/
+  width: 33.3%;
+  /*height: 275px;*/
+  float: left;
+  //z-index: -1;
+}
+
+#display_table {
+  float: left;
+  margin: 0;
+  width: 10%;
+  display: block;
+  padding-left: 10px;
+
+  div.diaplay_nav{
+    float:left;
+    h5{
+      border-bottom: 1px solid;
+      color: #154c85;
+      font-size: 12px;
+      font-weight: normal;
+      margin: 5px 0px 10px;
+      padding: 5px 0;
+      display: block;
+    }    
+  
+    ul.subnav{
+      width:100%;
+      float: left;
+      margin: 0;
+      padding-left: 10px;
+      background-color: #fff;
+      display: block;
+   
+      li{
+        font-size: 10px;
+        color: #154c85;
+        a{
+          color: #4d759e;
+          text-decoration: none;
+          font-size: 8pt;
+        }
+      }   
+   
+    }
+
+  }
+}
+
+div.warning_option{
+  width: 13%;
+  float: right;
+  margin:0 1%;
+  display: none;
+  border: 2px solid #154c85;
+  
+  h4{
+   color: #910000;
+   float: left;
+   margin: 0 0 5px;
+   padding: 0;
+   text-align: center;
+   width: 100%;
+  }
+  p{
+    
+    padding: 5px;
+    margin-bottom: 0;
+  }
+  ul{
+    margin: 0;
+    padding: 0;
+    li{
+      float: left;
+      list-style: none outside none;
+      margin: 10px 0;
+      text-align: center;
+      width: 100%;
+      a{
+        img{
+          height: 25px;
+        }
+      }
+    }
+  }
+}
+
+.subnav .selected{ color: #333 !important; }
+
+#SeriesData0{
+  width: 90px !important;
+}
+
+#SeriesData1, #SeriesData2, #SeriesData3{
+  width: 60px !important;
+}
+
+.legend-show {
+  font-weight: bold !important;
+  font-size: 7pt !important;
+}
+
+#loadbody {
+  width: 100%;
+  background-color: rgba(22, 22, 22, 0.8);
+  height: 100%;
+  position: fixed;
+  top: 0%;
+  z-index: 1400;
+  pointer-events:none;
+}
+
+.loader {
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  z-index: 1500;
+  background: rgba(189,195,199,1);
+  height: 3em;
+  width: 3em;
+  margin: 7em auto;
+  animation: loadit 4s linear infinite;
+}
+
+@keyframes loadit {
+  55% {
+    background: rgba(189,195,199,0.4);
+    border-radius: 100%;
+    transform: rotate(360deg);
+    box-shadow: 7em 0 0 rgba(189,195,199,0.3),-7em 0 0 rgba(189,195,199,0.3),3em 0 0 rgba(189,195,199,0.3),-3em 0 0 rgba(189,195,199,0.3),0 7em 0 rgba(189,195,199,0.3),0 -7em 0 rgba(189,195,199,0.3),0 3em 0 rgba(189,195,199,0.3),0 -3em 0 rgba(189,195,199,0.3);
+  }
+}
+
+.view {
+  cursor: pointer;
+  display: none;
+  font: bold 10px arial;
+}
+
+#year_range, #year_demand, #year_supply{
+  position: relative;
+  top: -241px;
+  left: 415px;
+  z-index: 100;
+  background-color: #154c85;
+  border: 1px solid #154c85;
+  color: white;
+}
+
+.year_demand{
+  top: -240px !important;
+  left: 385px !important;
+}
+
+.year_supply{
+  top: -240px !important;
+  left: 777px !important;
+}
+
+
+.pathway_text{
+  border: 2px dotted #154c85;
+  float: left;
+  font-size: 12px;
+  //font-weight: bold;
+  left: 20px;
+  padding: 10px;
+  position: relative;
+  top: 70px;
+  width: 140px;
+}
+
+.pathway_text b{
+  font-size: 14px;
+  //background-color: #fff;
+}
+
+.lin{
+  float:left;border-bottom:1px solid black;width: 100%;height: 1px;
+}
+#land_share{
+  float:right !important;
+}
+
+#custom-legend2 legend-item0, legend-item1, legend-item2, legend-item3{
+  width:50px !important; float:left !important;
+}
+
+.warning_text{
+  border: 2px dotted #154c85 !important;
+  font-size: 11px;
+  font-style: italic;
+  width: 155px;
+}
+#print_div{
+  float: right;
+}

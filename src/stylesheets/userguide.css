@@ -1,0 +1,30 @@
+#mainTable{
+    font-size: 16px;
+    font-family: '&#65325;&#65331; &#65328;&#12468;&#12471;&#12483;&#12463;',sans-serif;
+    text-align: center;
+    vertical-align: middle;
+    width: 410px;
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: separate;
+    border-spacing: 10px 5px;
+}
+#leftField{
+    width: 120px;
+    height: 150px;
+    border: 1px solid #000;
+}
+#rightField{
+    width: 120px;
+    height: 150px;
+    border: 1px solid #000;
+}
+.middleField{
+    width: 120px;
+    height: 70px;
+    border: 1px solid #000;
+}
+
+#mainTable td:hover{
+    background-color:#99ccff;
+}

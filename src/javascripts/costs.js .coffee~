@@ -1,0 +1,531 @@
+highlightLegend = (box_id, item, hide) ->
+  legend_text = "legend-item"+item
+  if hide
+    #alert "#"+box_id+ " ."+legend_text
+    $("#"+box_id+ " div."+legend_text).addClass('legend-show');
+  else
+    $("#"+box_id+ " div."+legend_text).removeClass('legend-show');
+  return
+
+highlight = (series, index, hide) ->
+  $(series).each (i, serie) ->
+    unless i is index
+      
+      #serie.area.attr({ "fill": (hide ? "#D4D4D4": serie.color) });
+      serie.area.attr opacity: ((if hide then 0.25 else 0.75))  if serie.type is "area"
+      
+      #/serie.area.attr({ "opacity": 0.75 });
+      if serie.type is "column"
+        $.each serie.data, (k, data) ->
+          data.graphic.attr opacity: ((if hide then 0.25 else 1))  if data.series
+          return
+
+      if serie.type is "line"
+        $.each serie.data, (k, data) ->
+          data.series.graph and data.series.graph.attr("stroke", ((if hide then "#D4D4D4" else serie.color)))  if data.series
+          return
+
+    else
+      if serie.type is "area"
+        serie.area.attr fill: serie.color
+        serie.area.attr opacity: 1
+      if serie.type is "column"
+        $.each serie.data, (k, data) ->
+          data.graphic.attr opacity: 1  if data.series
+          return
+
+      if serie.type is "line"
+        $.each serie.data, (k, data) ->
+          data.series.graph and data.series.graph.attr("stroke", serie.color)  if data.series
+          return
+
+    return
+
+  return
+highData = (n, series, hide) ->
+  if hide
+    Ddata = [
+      Highcharts.numberFormat(series.yData[0], 0, ",")
+      Highcharts.numberFormat(series.yData[3], 0, ",")
+      Highcharts.numberFormat(series.yData[5], 0, ",")
+      Highcharts.numberFormat(series.yData[7], 0, ",")
+    ]
+    i = 0
+
+    while i < 4
+      $("#display-data" + n + " #SeriesData" + i).html Ddata[i]
+      i++
+  else
+    i = 0
+
+    while i < 4
+      $("#display-data" + n + " #SeriesData" + i).empty()
+      i++
+  return
+clickItem = (series, $legendItem, options) ->
+  series.setVisible()
+  $legendItem.css options[(if series.visible then "itemStyle" else "itemHiddenStyle")]
+  $legendItem.css color: series.color  if series.visible
+  return
+callCommon = (chartIdArr) ->
+  i = 0
+
+  while i < chartIdArr.length
+    parentElement = $(chartIdArr[i])[0]
+    
+    #alert(parentElement.children[0].id);
+    finalEnergyId[i] = parentElement.children[0].id  if parentElement.children[0]
+    $("#custom-legend" + i).remove()
+    $("#display-data" + i).remove()
+    
+    # 5 Nov , Intern's code
+    # display data of series in container
+    $xData = $("<div id=\"display-data" + i + "\">").css(
+      width: 270
+      marginLeft: 55
+      bottom: 0
+      "margin-bottom": "15px"
+      position: "absolute"
+    ).appendTo(chartIdArr[i])
+    z = 0
+
+    while z < 4
+      $("<p id=\"SeriesData" + z + "\">").css(
+        width: 43
+        paddingRight: 5
+        paddingLeft: 5
+        color: "#000"
+        margin: 0
+        float: "left"
+        fontWeight: "bold"
+        fontSize: 10
+      ).appendTo $xData
+      z++
+    
+    # Create the legend box
+    $legend[i] = $("<div id=\"custom-legend" + i + "\" class=\"custom-legends\">").css(
+      width: "170px"
+      borderRadius: "5px"
+      boxShadow: "0 0 0 1px #ddd"
+      maxHeight: "250px !important"
+      overflow: "auto "
+      float: "left"
+      backgroundColor: "#fff"
+      top: "30px"
+      left: "65px"
+      opacity: "0.9"
+      padding: "5px 5px 3px"
+      position: "absolute",
+      visibility: "hidden",
+      transition: "visibility 0s linear 0.5s,opacity 0.5s linear";
+    ).appendTo($("#" + finalEnergyId[i]))
+    i++
+  return
+
+# .appendTo('#'+finalEnergyId[i]);
+callLegand = (options0, chartSeries, series, l_index) ->
+  
+  # create the legend item            
+  $legendItem = $("<div class=\"legend-item" + series.index + "\">").css(
+    position: "relative"
+    paddingTo: 5
+    paddingBottom: 2
+  ).css(options0[(if series.visible then "itemStyle" else "itemHiddenStyle")]).css(
+    color: series.color
+    font: "normal 7pt sans-serif"
+  ).html(series.name).appendTo($legend[l_index])
+  
+  # click handler 
+  $legendItem.click ->
+    clickItem series, $legendItem, options0
+    return
+
+  
+  # legend mouseOver event
+  $legendItem.hover (->
+    $(this).css "fontWeight", "bold"
+    highlight chartSeries, series.index, true
+    highData l_index, series, true
+    return
+  ), ->
+    $(this).css "fontWeight", "normal"
+    highlight chartSeries, series.index, false
+    highData l_index, series, false
+    return
+
+  return
+finalEnergyId = []
+$legend = []
+
+# End legend mouseOver event  
+
+class Costs
+
+  setup: () ->
+    target = $('#results')
+    target.append("<div id='demand_chart' class='chart'></div>")
+      .append("<div id='supply_chart' class='chart'></div>")
+      .append("<div id='electricity_exports' class='chart'></div>")
+
+    #The following lines position the viewmessage box, chart and results
+   
+    document.getElementById("results").style.overflow = "inherit"
+   
+    @demand_chart = new Highcharts.Chart({
+      chart: { renderTo: 'demand_chart', height: 250, width: 300 },
+      title: { text: 'Electricity demand' },
+      tooltip: { enabled: false },
+      yAxis: { 
+        labels: formatter: ->
+          return this.value/1000 + 'k'
+        title: {
+          style: {
+            fontWeight: "normal",
+            fontSize: "10px"
+          },
+          align: "high",
+          rotation: 0,
+          textAlign: "left",
+          x: 0,
+          y: -15,
+          text: "TWh/yr"
+        }, 
+        min: 0, 
+        max: 7500,
+        width: 225 
+        },
+      xAxis:{ width: 240},
+      legend:{
+        itemStyle: { fontSize: '7pt' }
+      },
+      plotOptions:
+        area:
+          lineWidth: 0.1
+
+        series:
+          states:
+            hover:
+              enabled: true
+              lineWidth: 2
+              lineColor: "#6c6c6c"
+
+          events:
+            mouseOver: ->
+              highlightLegend "custom-legend0", this.index, true
+              Ddata = [
+                Highcharts.numberFormat(@yData[0], 0, ",")
+                Highcharts.numberFormat(@yData[3], 0, ",")
+                Highcharts.numberFormat(@yData[5], 0, ",")
+                Highcharts.numberFormat(@yData[7], 0, ",")
+              ]
+              i = 0
+
+              while i < 4
+                $("#display-data0 #SeriesData" + i).html Ddata[i]
+                i++
+              return
+
+            mouseOut: ->
+              highlightLegend "custom-legend0", this.index, false
+              i = 0
+
+              while i < 4
+                $("#display-data0 #SeriesData" + i).empty()
+                i++
+              return
+
+      series: []
+    })
+
+    @supply_chart = new Highcharts.Chart({
+      chart: { renderTo: 'supply_chart', height: 250, width: 300 },
+      title: { text: 'Electricity supply' },
+      tooltip: { enabled: false },
+      yAxis: { 
+        labels: formatter: ->
+          return this.value/1000 + 'k'
+        title: {
+          style: {
+            fontWeight: "normal",
+            fontSize: "10px"
+          },
+          align: "high",
+          rotation: 0,
+          textAlign: "left",
+          x: 0,
+          y: -15,
+          text: "TWh/yr"
+        }, 
+        min: 0, 
+        max: 10000,
+        width: 225 
+        },
+      xAxis:{ width: 240},
+      legend:{
+        itemStyle: { fontSize: '7pt' }
+      },
+      plotOptions:
+        area:
+          lineWidth: 0.1
+
+        series:
+          states:
+            hover:
+              enabled: true
+              lineWidth: 2
+              lineColor: "#6c6c6c"
+
+          events:
+            mouseOver: ->
+              highlightLegend "custom-legend1", this.index, true
+              Ddata = [
+                Highcharts.numberFormat(@yData[0], 0, ",")
+                Highcharts.numberFormat(@yData[3], 0, ",")
+                Highcharts.numberFormat(@yData[5], 0, ",")
+                Highcharts.numberFormat(@yData[7], 0, ",")
+              ]
+              i = 0
+
+              while i < 4
+                $("#display-data1 #SeriesData" + i).html Ddata[i]
+                i++
+              return
+
+            mouseOut: ->
+              highlightLegend "custom-legend1", this.index, false
+              i = 0
+
+              while i < 4
+                $("#display-data1 #SeriesData" + i).empty()
+                i++
+              return
+
+      series: []
+    })
+
+    @electricity_exports = new Highcharts.Chart({
+      chart: { renderTo: 'electricity_exports', height: 250, width: 300 , type: 'line' },
+      title: { text: 'Over-generation / Exports' },
+      yAxis: { 
+        labels: formatter: ->
+          return this.value/1000 + 'k'
+        title: {
+          style: {
+            fontWeight: "normal",
+            fontSize: "10px"
+          },
+          align: "high",
+          rotation: 0,
+          textAlign: "left",
+          x: 0,
+          y: -15,
+          text: "TWh/yr"
+        }, 
+        min: 0, 
+        max: 8000, 
+        reversed: false, },
+      xAxis:{ width: 240},
+      legend:{
+        itemStyle: { fontSize: '7pt' }
+      },
+      plotOptions:
+        area:
+          lineWidth: 0.1
+
+        series:
+          states:
+            hover:
+              enabled: true
+              lineWidth: 2
+              lineColor: "#6c6c6c"
+
+          events:
+            mouseOver: ->
+              highlightLegend "custom-legend2", this.index, true
+              Ddata = [
+                Highcharts.numberFormat(@yData[0], 0, ",")
+                Highcharts.numberFormat(@yData[3], 0, ",")
+                Highcharts.numberFormat(@yData[5], 0, ",")
+                Highcharts.numberFormat(@yData[7], 0, ",")
+              ]
+              i = 0
+
+              while i < 4
+                $("#display-data2 #SeriesData" + i).html Ddata[i]
+                i++
+              return
+
+            mouseOut: ->
+              highlightLegend "custom-legend2", this.index, false
+              i = 0
+
+              while i < 4
+                $("#display-data2 #SeriesData" + i).empty()
+                i++
+              return
+
+      series: []
+
+    })
+
+
+
+  teardown: () ->
+    document.getElementById("viewmessage").style.display = "none"
+    #document.getElementById("viewmessage").style.margin = "30px auto"
+    $('#results').empty()
+    @demand_chart = null
+    @supply_chart = null
+    @electricity_exports = null
+
+
+  updateResults: (@pathway) ->
+    @setup() unless @demand_chart? && @supply_chart?  && @electricity_exports?
+
+
+      
+    # Demand for electricity
+    titles = ['Transport','Industry','Cooking','Lighting & appliances','Telecom','Agriculture',]
+    i = 0
+    for name in titles
+      data = @pathway['electricity']['demand'][name]
+      if @demand_chart.series[i]?
+        @demand_chart.series[i].setData(data,false)
+      else
+        @demand_chart.addSeries({name:name,data:data},false)
+      i++
+
+    data = @pathway['electricity']['demand']['Total']
+    if @demand_chart.series[i]?
+      @demand_chart.series[i].setData(data,false)
+    else
+      @demand_chart.addSeries({type: 'line', name: 'Electricity demand',data:data, lineColor: '#000', color: '#000',lineWidth:2,dashStyle:'Dot', shadow: false},false)
+    i++
+
+    titles = ["Gas Power Stations","Coal power stations","Carbon Capture Storage (CCS)","Electricity Balancing Requirement","Nuclear power","Hydro Power Generation","Solar PV","Solar CSP","Onshore Wind","Offshore Wind","Small Hydro","Biomass Based Electricity& Biogas","Waste to Electricity","Electricity imports",]
+    # ["Gas Power Stations","Coal power stations","Carbon Capture Storage (CCS)","Electricity Balancing Requirement","Nuclear power","Hydro Power Generation","Solar PV","Solar thermal","Onshore Wind","Offshore Wind","Small Hydro","Biomass Based Electricity& Biogas","Waste to Electricity","Electricity imports"]
+    i = 0
+    for name in titles
+      data = @pathway['electricity']['supply'][name]
+      if @supply_chart.series[i]?
+        @supply_chart.series[i].setData(data,false)
+      else
+        @supply_chart.addSeries({name:name,data:data},false)
+      i++
+
+    data = @pathway['electricity']['supply']['Total generation supplied to grid']
+    if @supply_chart.series[i]?
+      @supply_chart.series[i].setData(data,false)
+    else
+      @supply_chart.addSeries({type: 'line', name: 'Electricity supply',data:data, lineColor: '#000', color: '#000',lineWidth:2,dashStyle:'Dot', shadow: false},false)
+    i++
+    # Supply of electricity
+    electricity_titles = ["Electricity exports"]
+    #exports = []
+    i = 0
+    for name in electricity_titles
+      data = (@pathway['electricity']['electricity_exports'][name])
+      #console.log(@pathway['electricity']['electricity_exports'][name])
+
+      #Convert to positive
+      data = data.map((x) ->
+        Math.abs x
+      )
+
+      if @electricity_exports.series[i]?
+        @electricity_exports.series[i].setData(data,false)
+        #series.push(-@pathway['electricity']['electricity_exports'][name])
+      else
+        @electricity_exports.addSeries({name:name,data:data},false)
+        #series.push(-@pathway['electricity']['electricity_exports'][name])
+      i++
+
+    # **************** Start Custom Legand *****************     
+    ChartArr = [
+      @demand_chart.series
+      @supply_chart.series
+      @electricity_exports.series
+    ]
+    optionsArr = [
+      @demand_chart.options.legend
+      @supply_chart.options.legend
+      @electricity_exports.options.legend
+    ]
+    chartIdArr = [
+      "#demand_chart"
+      "#supply_chart"
+      "#electricity_exports"
+    ]
+
+    # calling common layout of legand
+    callCommon chartIdArr
+    #$("#custom-legend0").css marginTop: "129px"
+    #$("#custom-legend1").css marginTop: "105px"
+    #$("#custom-legend2").css marginTop: "200px"
+
+    # Creating legand
+    # Display data of corresponding series on mouse over on legand item
+    # On mouse over respective series will highlight and other will fade out
+    # Data will display on mouse over on series area 
+    L = 0
+    K = 0
+    charts_id = []
+    while L < 3
+      $.each ChartArr[L], (i, series) ->
+        chartSeries = ChartArr[L]
+        options = optionsArr[L]
+        callLegand options, chartSeries, series, L
+        return
+
+      parentElement = $(chartIdArr[L])[0]
+      #alert(parentElement.children[0].id);
+
+      charts_id.push parentElement.children[0].id
+
+      L++
+
+
+      $("#"+charts_id[0]).mouseover ->
+        $("#custom-legend0").css visibility: "visible"
+        $("#custom-legend0").css opacity: "0.9"
+      $("#"+charts_id[0]).mouseout ->
+        $("#custom-legend0").css visibility: "hidden"
+        $("#custom-legend0").css opacity: 0
+
+      $("#"+charts_id[1]).mouseover ->
+        $("#custom-legend1").css visibility: "visible"
+        $("#custom-legend1").css opacity: "0.9"
+      $("#"+charts_id[1]).mouseout ->
+        $("#custom-legend1").css visibility: "hidden"
+        $("#custom-legend1").css opacity: 0
+    
+      $("#"+charts_id[2]).mouseover ->
+        $("#custom-legend2").css visibility: "visible"
+        $("#custom-legend2").css opacity: "0.9"
+      $("#"+charts_id[2]).mouseout ->
+        $("#custom-legend2").css visibility: "hidden"
+        $("#custom-legend2").css opacity: 0
+
+    # **************** End Custom Legand ***************** 
+
+    @demand_chart.redraw()
+    @supply_chart.redraw()
+    @electricity_exports.redraw()
+    #@emissions_chart.redraw()
+
+    document.getElementById("viewmessage").style.display = "inline-block"
+
+    #Text for viewmessage textbox
+    document.getElementById("viewmessage").innerHTML="
+              <h3> Is this scenario over-generating electricity ?  </h3>
+              <p>
+                 Your chosen energy scenario creates a maximum of <b> "+ Math.round(Math.abs(Math.min(@pathway['electricity']['electricity_exports']["Electricity exports"][0],@pathway['electricity']['electricity_exports']["Electricity exports"][1], @pathway['electricity']['electricity_exports']["Electricity exports"][2], @pathway['electricity']['electricity_exports']["Electricity exports"][3], @pathway['electricity']['electricity_exports']["Electricity exports"][4], @pathway['electricity']['electricity_exports']["Electricity exports"][5], @pathway['electricity']['electricity_exports']["Electricity exports"][6], @pathway['electricity']['electricity_exports']["Electricity exports"][7])))  + " </b>
+                 TWh/year of excess electricity, potentially available for exports.
+                If your energy choices lead to exports, you may want to bring down conventional and/or renewable energy supplies a notch, or ramp up energy demand.
+
+
+
+              </p>
+              "
+    
+window.twentyfifty.views['costs'] = new Costs

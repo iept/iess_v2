@@ -1,0 +1,247 @@
+#pathway_box {
+  width: 100%;
+  float:left;
+  text-align: center;
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+  margin-bottom: 10px;
+  padding: 3px 0;
+  background-color: #fff;
+}
+
+#classic_controls {
+  /*Following line is important to clear away from the charts and textbox*/
+  clear: both;
+  float: left;
+  font-size: 10px;
+  width: 1200px;
+  padding-top: 10px;
+  background-color: #fff;
+
+  h2 {
+    background-color: #fff;
+    color: #3e576f;
+    float: left;
+    font-family: sans-serif;
+    font-size: 16px;
+    font-weight: normal;
+    margin: -10px 0 5px 10px;
+    padding: 0 5px;
+    position: relative;
+  }
+  
+  #demand, #supply, #other, #electricity, #guide {
+    border: 1px solid;
+    border-radius: 5px;
+    float: left;
+    margin: 0 0.5% 1.5%;
+    padding: 0 0 5px 0;
+    width: 28%;
+}
+
+#guide {
+    width: 11% !important;
+    float:right;
+  table tr {
+    border-bottom: 1px solid #aaa;
+    height: 25px;
+     
+  }
+}  
+  
+  table {
+    width: 90%;
+    margin: 0 auto;
+    tr {
+      background-color:#fff;
+    }
+    tr:hover {
+      td.name {
+        font-weight: bold;
+        background-image: url('/assets/images/oneblackpixel.png'); 
+
+      };
+    }
+    td.choice {
+      width: 20px;
+      a {
+       display: block;
+       width: 100%;
+       text-align: center;
+       color: #555;
+       text-decoration: none;
+       border: solid #ccc 1px;
+      }
+      a:hover {
+        border: solid #000 1px;
+      }
+      a.selected {
+        color: #000;
+      }
+    }
+    td.name {
+      background-image: url('/assets/images/onegreypixel.png');
+      background-position: left center;
+      background-repeat: repeat-x;
+      width: 120px;
+
+      a {
+        background-color: #fff;
+	text-decoration: none;
+	color: #000;
+	cursor: help;
+      }
+      a:hover {
+	text-decoration: underline;
+      }
+    }
+    tr.incremental {
+            
+      a.level1 {
+        background-color: #F44545;
+      }
+      a.level1_1 {
+        background-color: #F44545;
+      }
+      a.level1_2 {
+        background-color: #F44545;
+      }
+      a.level1_3 {
+        background-color: #F44545;
+      }
+      a.level1_4 {
+        background-color: #F44545;
+      }
+      a.level1_5 {
+        background-color: #F44545;
+      }
+      a.level1_6 {
+        background-color: #F44545;
+      }
+      a.level1_7 {
+        background-color: #F44545;
+      }
+      a.level1_8 {
+        background-color: #F44545;
+      }
+      a.level1_9 {
+        background-color: #F44545;
+      }
+
+      a.level2 {
+        background-color: #FFAE55;
+      }
+      a.level2_1 {
+        background-color: #FFAE55;
+      }
+      a.level2_2 {
+        background-color: #FFAE55;
+      }
+      a.level2_3 {
+        background-color: #FFAE55;
+      }
+      a.level2_4 {
+        background-color: #FFAE55;
+      }
+      a.level2_5 {
+        background-color: #FFAE55;
+      }
+      a.level2_6 {
+        background-color: #FFAE55;
+      }
+      a.level2_7 {
+        background-color: #FFAE55;
+      }
+      a.level2_8 {
+        background-color: #FFAE55;
+      }
+      a.level2_9 {
+        background-color: #FFAE55;
+      }
+
+
+      a.level3 {
+        background-color: #EFDD60;
+      }
+      a.level3_1 {
+        background-color: #EFDD60;
+      }
+      a.level3_2 {
+        background-color: #EFDD60;
+      }
+      a.level3_3 {
+        background-color: #EFDD60;
+      }
+      a.level3_4 {
+        background-color: #EFDD60;
+      }
+      a.level3_5 {
+        background-color: #EFDD60;
+      }
+      a.level3_6 {
+        background-color: #EFDD60;
+      }
+      a.level3_7 {
+        background-color: #EFDD60;
+      }
+      a.level3_8 {
+        background-color: #EFDD60;
+      }
+      a.level3_9 {
+        background-color: #EFDD60;
+      }
+
+      a.level4 {
+        background-color: #92C979;
+      }
+      a.level4_1 {
+        background-color: #92C979;
+      }
+      a.level4_2 {
+        background-color: #92C979;
+      }
+      a.level4_3 {
+        background-color: #92C979;
+      }
+      a.level4_4 {
+        background-color: #92C979;
+      }
+      a.level4_5 {
+        background-color: #92C979;
+      }
+      a.level4_6 {
+        background-color: #92C979;
+      }
+      a.level4_7 {
+        background-color: #92C979;
+      }
+      a.level4_8 {
+        background-color: #92C979;
+      }
+      a.level4_9 {
+        background-color: #92C979;
+      }
+
+      a.level5 {
+        background-color: #154c85;
+      }
+      
+    }
+    tr.alternative {
+      a.selected {
+       background-color: #aaa;  
+      }
+    }
+  }
+}
+
+.tr_cls{
+    background-color: #66c266;
+}
+
+#classic_controls #guide table tr:last-child {
+  border-bottom: none;
+}
+td{
+  background-color:#fff;
+}

@@ -1,0 +1,16 @@
+#share {
+
+ div {
+  float:left;
+ }
+
+ #excel {
+   margin-top: 50px;
+   textarea {
+     text-align: right;
+     margin-left: 10%;
+     width: 32px;
+     height: 700px;
+   }
+ }
+}
