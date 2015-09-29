@@ -1,12 +1,12 @@
 # DECC 2050 CALCULATOR TOOL
 
-A web interface to the www.decc.gov.uk 2050 energy and climate change calculator
+A web interface to the Indiaenergy Security Scenarios  calculator
 
 Further detail on the project:
-http://www.decc.gov.uk/2050
+http://indiaenergy.gov.in
 
 Canonical source:
-http://github.com/decc/twenty-fifty
+http://github.com/iept/iess_v2
 
 # INSTALATION
 
